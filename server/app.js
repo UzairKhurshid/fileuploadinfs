@@ -3,6 +3,7 @@ const express = require('express')
 const path = require('path')
 const hbs = require('hbs')
 const bodyParser = require('body-parser')
+const multer = require('multer')
 const session = require('express-session')
 const mongoStoreSession = require('connect-mongodb-session')(session)
 const app = express()
@@ -17,8 +18,22 @@ app.use(session({
     saveUninitialized: false,
     store: dbStore
 }))
-
-//routes
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '../public/avatars'))
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.filename + '-' + file.originalname)
+    }
+})
+const fileFilter = (req, file, cb) => {
+        if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+            cb(null, true)
+        } else {
+            cb(null, false)
+        }
+    }
+    //routes
 const authRoute = require('../server/routes/auth')
 const dashboardRoute = require('../server/routes/dashboard')
 
@@ -31,6 +46,7 @@ const port = process.env.PORT
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('avatar'))
 app.set('view engine', 'hbs')
 app.set('views', viewDirectory)
 hbs.registerPartials(partialsDirectory)

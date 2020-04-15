@@ -1,0 +1,34 @@
+<html>
+{{>header}}
+<body>
+
+    <h1>Welcome to FileUpload Page</h1>
+    <p>Dir Name :</p><span>{{dirName}}</span>
+    {{!-- {{#if filepath}}
+        <img src="{{filepath}}"
+    {{/if}} --}}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+          
+        </div><br><br><br><br><br><br>
+            <div class="col-md-6">
+                <form action="/fileupload" method="POST"  enctype="multipart/form-data">
+                    <label>Name</label>
+                    <input type="text" name="name">
+                    <br>
+                    <label>Email</label>
+                    <input type="text" name="email">
+                    <br>
+                    <label>Image</label>
+                    <input type="file" name="avatar">
+                    <br>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{{>footer}}
+</body>
+</html>

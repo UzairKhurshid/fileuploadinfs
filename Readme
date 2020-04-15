@@ -146,6 +146,22 @@ after this add this in app.js
     hbs.registerPartials(partialsDirectory)
     app.use(express.static(publicDirectory))
 
+
+*************************************************************************
+
+File Upload
+we use multer that is middleware to parse incoming requests
+npm i --save multer
+
+in app.js
+const multer=require('multer')
+app.use(multer().single('avatar'));  //multer.single() shows only single file is coming and avatar is the name of file in form
+
+in router 
+const avatar=req.file
+
+
+
 *************************************************************************
 
 Envoirmental Variables
@@ -217,9 +233,10 @@ heroku config //to view env variables
 
 heroku config:unset key  //to unset env variables 
 
-mongodb atlas connection string from  coneect from application 
-MONGODB_URL="mongodb+srv://project:project123@cluster0-qedl3.mongodb.net/project?retryWrites=true&w=majority"
+mongodb atlas connection string from  coneect from application  should be in "" if on windows and if mac or linux put ''
+heroku config:set  MONGODB_URL="mongodb+srv://project:project123@cluster0-qedl3.mongodb.net/project?retryWrites=true&w=majority"
 
+git push heroku master
 
 project url
 https://uzair-nodejs-project.herokuapp.com/

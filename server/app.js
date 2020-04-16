@@ -20,10 +20,10 @@ app.use(session({
 }))
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../public/avatars'))
+        cb(null, 'avatars')
     },
     filename: (req, file, cb) => {
-        cb(null, file.filename + '-' + file.originalname)
+        cb(null, 'avatars-' + file.originalname)
     }
 })
 const fileFilter = (req, file, cb) => {
@@ -39,13 +39,14 @@ const dashboardRoute = require('../server/routes/dashboard')
 
 
 const publicDirectory = path.join(__dirname, '../public')
+const avatarsDirectory = path.join(__dirname, '../avatars')
 const viewDirectory = path.join(__dirname, '../views')
 const partialsDirectory = path.join(__dirname, '../views/shared')
 
 const port = process.env.PORT
-
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use('/avatars', express.static(avatarsDirectory))
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('avatar'))
 app.set('view engine', 'hbs')
 app.set('views', viewDirectory)

@@ -35,7 +35,7 @@ router.post('/', async(req, res) => {
 
 router.get('/fileupload', auth, async(req, res) => {
     try {
-        const email = req.session.email
+        const email = 'umair12@gmail.com'
         const user = await fileUpload.findOne({ email })
         console.log(user)
         if (!user) {
@@ -61,12 +61,11 @@ router.post('/fileupload', auth, async(req, res) => {
         const name = req.body.name
         const email = req.body.email
         const avatar = req.file
-        console.log(avatar)
-        const filepath = avatar.path
+
         const fileupload = new fileUpload()
         fileupload.name = name
         fileupload.email = email
-        fileupload.filepath = filepath
+        fileupload.filepath = avatar.path
         await fileupload.save()
         res.redirect('/fileupload')
 
